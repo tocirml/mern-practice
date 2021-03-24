@@ -1,9 +1,17 @@
-export default {
-  items: [
-    // { id: 1, name: 'Leche Almendras' },
-    // { id: 2, name: 'Arandanos' },
-    // { id: 3, name: 'Hongos' },
-    // { id: 4, name: 'Frijoles' },
-  ],
+const initialState = {
+  items: [],
   apiCallsInProgress: 0,
+  error: {
+    msg: {},
+    status: null,
+    id: null,
+  },
+  auth: {
+    token: localStorage.getItem('token'),
+    isAuthenticated: null,
+    isLoading: false,
+    user: false,
+  },
 };
+
+export default initialState;

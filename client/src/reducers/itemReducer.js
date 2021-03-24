@@ -5,13 +5,11 @@ import initialState from './initialState';
 const itemReducer = (state = initialState.items, action) => {
   switch (action.type) {
     case GET_ITEMS:
-      console.log(action.items);
       return action.items;
     case ADD_ITEM:
       return [...state, action.item];
     case DELETE_ITEM:
-      console.log('Reduce id: ', action.id);
-      return state.filter((item) => item._id !== action.id);
+      return state.filter(item => item._id !== action.id);
     default:
       return state;
   }

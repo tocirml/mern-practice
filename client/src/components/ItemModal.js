@@ -12,9 +12,8 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addItem } from '../actions/itemActions';
-// import { v4 as uuidv4 } from 'uuid';
 
-const ItemModal = ({ addItem }) => {
+const ItemModal = ({ addItem, isAuthenticated }) => {
   const [modal, setModal] = useState(false);
   const [item, setItem] = useState({ name: '' });
 
@@ -22,13 +21,14 @@ const ItemModal = ({ addItem }) => {
     setModal(!modal);
   };
 
-  const onChange = (event) => {
+  const onChange = event => {
     setItem({
+      ...item,
       [event.target.name]: event.target.value,
     });
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = event => {
     event.preventDefault();
     const newItem = {
       // id: uuidv4(),
@@ -45,9 +45,13 @@ const ItemModal = ({ addItem }) => {
 
   return (
     <>
-      <Button color="dark" style={{ marginBottom: '2rem' }} onClick={toggle}>
-        Add Item
-      </Button>
+      {isAuthenticated ? (
+        <Button color="dark" style={{ marginBottom: '2rem' }} onClick={toggle}>
+          Add Item
+        </Button>
+      ) : (
+        <h4 className="mb-3 ml-4">Please login to manage items</h4>
+      )}
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Add to Shopping List</ModalHeader>
         <ModalBody>
@@ -74,10 +78,12 @@ const ItemModal = ({ addItem }) => {
 
 ItemModal.propType = {
   addItem: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   items: state.items,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, { addItem })(ItemModal);
